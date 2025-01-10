@@ -9,7 +9,10 @@ function MovieCard({ initialMovieData, onDelete, onEdit }) {
     const [errors, setErrors] = useState({});
 
     const handleDelete = () => {
-        onDelete(movieId);
+        const confirmed = window.confirm("Are you sure you want to delete this movie?");
+        if (confirmed) {
+            onDelete(movieId);
+        }
     };
 
     const handleInputChange = (e) => {
