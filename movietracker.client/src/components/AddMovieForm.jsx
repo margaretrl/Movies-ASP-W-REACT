@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function AddMovieForm({ onAddMovie }) {
-    const [newMovie, setNewMovie] = useState({
+function AddMovieForm({ onAddMovie, onClose }) {
+    const [newMovie, setNewMovie] = React.useState({
         title: '',
         overview: '',
         posterPath: '',
@@ -9,7 +9,7 @@ function AddMovieForm({ onAddMovie }) {
         review: ''
     });
 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = React.useState({});
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -50,6 +50,7 @@ function AddMovieForm({ onAddMovie }) {
                     const createdMovie = await response.json();
                     onAddMovie(createdMovie); // Update movie list in App.js
                     setNewMovie({ title: '', overview: '', posterPath: '', rating: 0, review: '' });
+                    onClose(); // Close the modal
                 } else {
                     console.error('Error adding movie:', response.statusText);
                 }
@@ -62,7 +63,7 @@ function AddMovieForm({ onAddMovie }) {
     };
 
     return (
-        <div className="my-4">
+        <div className="modal-content p-4">
             <h2>Add a New Movie</h2>
             <div className="form-group">
                 <label>Title</label>
@@ -128,6 +129,12 @@ function AddMovieForm({ onAddMovie }) {
                 disabled={Object.keys(errors).length > 0}
             >
                 Add Movie
+            </button>
+            <button
+                className="btn btn-secondary mt-2"
+                onClick={onClose}  // Close the modal when clicking "Cancel"
+            >
+                Cancel
             </button>
         </div>
     );

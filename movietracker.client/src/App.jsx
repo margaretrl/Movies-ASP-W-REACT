@@ -1,9 +1,8 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard.jsx';
 import AddMovieForm from './components/AddMovieForm.jsx';
-import Header from './components/Header.jsx'
+import Header from './components/Header.jsx';  // Importing Header component
 
 function App({ initialMovieList }) {
     const [movies, setMovies] = useState([]);
@@ -69,7 +68,11 @@ function App({ initialMovieList }) {
     };
 
     const toggleFormVisibility = () => {
-        setIsFormVisible((prev) => !prev); // Toggle the form visibility
+        setIsFormVisible((prev) => !prev);
+    };
+
+    const closeModal = () => {
+        setIsFormVisible(false);
     };
 
     const cards = movies.map((movie) => (
@@ -85,11 +88,15 @@ function App({ initialMovieList }) {
     return (
         <div className="container">
             <Header title="Movies" onToggleForm={toggleFormVisibility} />
-            <div className="my-4 text-center">
-               
-            </div>
-            {isFormVisible && <AddMovieForm onAddMovie={handleAddMovie} />}
-            <h1 className="my-4"></h1>
+
+            {isFormVisible && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <AddMovieForm onAddMovie={handleAddMovie} onClose={closeModal} />
+                    </div>
+                </div>
+            )}
+
             <div className="row g-3">
                 {movies.length === 0 ? (
                     <p className="text-center">
