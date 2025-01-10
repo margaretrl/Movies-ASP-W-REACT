@@ -71,12 +71,13 @@ function App({ initialMovieList }) {
     };
 
     const cards = movies.map((movie) => (
-        <MovieCard
-            key={movie.movieId}
-            initialMovieData={movie}
-            onDelete={handleDeleteMovie} 
-            onEdit={handleEditMovie}
-        />
+        <div className="col-lg-4 col-md-6 col-sm-12" key={movie.movieId}>
+            <MovieCard
+                initialMovieData={movie}
+                onDelete={handleDeleteMovie}
+                onEdit={handleEditMovie}
+            />
+        </div>
     ));
 
     return (
@@ -88,14 +89,15 @@ function App({ initialMovieList }) {
             </div>
             {isFormVisible && <AddMovieForm onAddMovie={handleAddMovie} />}
             <h1 className="my-4">Movies</h1>
-            <div className="row">
+            <div className="row g-3">
                 {movies.length === 0 ? (
-                    <p className="text-center">Loading... Please refresh if the backend has started.</p>
+                    <p className="text-center">
+                        Loading... Please refresh if the backend has started.
+                    </p>
                 ) : (
                     cards
                 )}
             </div>
-
         </div>
     );
 }
