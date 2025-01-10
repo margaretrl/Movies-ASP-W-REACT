@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard.jsx';
-import AddMovieForm from './components/AddMovieForm.jsx'
+import AddMovieForm from './components/AddMovieForm.jsx';
+import Header from './components/Header.jsx'
+
 function App({ initialMovieList }) {
     const [movies, setMovies] = useState([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -82,13 +84,12 @@ function App({ initialMovieList }) {
 
     return (
         <div className="container">
+            <Header title="Movies" onToggleForm={toggleFormVisibility} />
             <div className="my-4 text-center">
-                <button className="btn btn-primary" onClick={toggleFormVisibility}>
-                    {isFormVisible ? 'Close Form' : 'Add New Movie'}
-                </button>
+               
             </div>
             {isFormVisible && <AddMovieForm onAddMovie={handleAddMovie} />}
-            <h1 className="my-4">Movies</h1>
+            <h1 className="my-4"></h1>
             <div className="row g-3">
                 {movies.length === 0 ? (
                     <p className="text-center">
