@@ -1,0 +1,28 @@
+.fixed-top {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+header {
+    display: flex;
+    justify-content: space-between; /* Ensures title on left and button on right */
+    align-items: center; /* Vertical alignment to center */
+    padding: 0.5rem 1.5rem;
+    background-color: rgba(31,148,0,0.5);
+    color: white;
+    height: 40px;
+    margin-right: 20px;
+    backdrop-filter: blur(5px);
+}
+
+header h1 {
+    margin: 0;
+}
+
+.btn {
+    margin-right: 30px;
+}
+

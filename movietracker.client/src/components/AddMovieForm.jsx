@@ -1,46 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function AddMovieForm({ onAddMovie }) {
-    const [newMovie, setNewMovie] = useState({
+function AddMovieForm({ onAddMovie, onClose }) {
+    const [newMovie, setNewMovie] = React.useState({
         title: '',
         overview: '',
         posterPath: '',
-        rating: 0,
+        rating: 1,
         review: ''
     });
 
+    const [errors, setErrors] = React.useState({});
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === 'rating') {
+            const numericValue = Number(value);
+            if (numericValue < 1 || numericValue > 10) {
+                setErrors((prev) => ({
+                    ...prev,
+                    [name]: 'Rating must be between 1 and 10',
+                }));
+            } else {
+                setErrors((prev) => {
+                    const { [name]: removed, ...rest } = prev;
+                    return rest;
+                });
+            }
+        }
+
         setNewMovie((prevMovie) => ({
             ...prevMovie,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const addMovie = async () => {
-        try {
-            const response = await fetch('https://localhost:7111/api/movies', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newMovie),
-            });
+        if (Object.keys(errors).length === 0) {
+            try {
+                const response = await fetch('https://localhost:7111/api/movies', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newMovie),
+                });
 
-            if (response.ok) {
-                const createdMovie = await response.json();
-                onAddMovie(createdMovie); // Update movie list in App.js
-                setNewMovie({ title: '', overview: '', posterPath: '', rating: 0, review: '' });
-            } else {
-                console.error('Error adding movie:', response.statusText);
+                if (response.ok) {
+                    const createdMovie = await response.json();
+                    onAddMovie(createdMovie); // Update movie list in App.js
+                    setNewMovie({ title: '', overview: '', posterPath: '', rating: 0, review: '' });
+                    onClose(); // Close the modal
+                } else {
+                    console.error('Error adding movie:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error adding movie:', error);
             }
-        } catch (error) {
-            console.error('Error adding movie:', error);
+        } else {
+            alert('Please resolve errors before submitting.');
         }
     };
 
     return (
-        <div className="my-4">
+        <div className="modal-content p-4">
             <h2>Add a New Movie</h2>
             <div className="form-group">
                 <label>Title</label>
@@ -78,12 +101,17 @@ function AddMovieForm({ onAddMovie }) {
                 <label>Rating</label>
                 <input
                     type="number"
-                    className="form-control"
+                    className={`form-control ${errors.rating ? 'is-invalid' : ''}`}
                     name="rating"
                     value={newMovie.rating}
                     onChange={handleInputChange}
-                    placeholder="Enter movie rating (0-5)"
+                    placeholder="Enter movie rating (1-10)"
+                    min="1"
+                    max="10"
                 />
+                {errors.rating && (
+                    <div className="invalid-feedback">{errors.rating}</div>
+                )}
             </div>
             <div className="form-group">
                 <label>Review</label>
@@ -95,8 +123,18 @@ function AddMovieForm({ onAddMovie }) {
                     placeholder="Enter movie review"
                 />
             </div>
-            <button className="btn btn-primary mt-3" onClick={addMovie}>
+            <button
+                className="btn btn-primary mt-3"
+                onClick={addMovie}
+                disabled={Object.keys(errors).length > 0}
+            >
                 Add Movie
+            </button>
+            <button
+                className="btn btn-secondary mt-2"
+                onClick={onClose}  // Close the modal when clicking "Cancel"
+            >
+                Cancel
             </button>
         </div>
     );

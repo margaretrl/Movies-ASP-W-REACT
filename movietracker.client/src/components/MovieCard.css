@@ -1,4 +1,79 @@
-img {
-    height: 400px;
-    width: 200px;
+/* Parent container for the movie cards */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin: 0 -10px;
+}
+
+/* Movie card styling */
+.card {
+    flex: 0 1 calc(33.333% - 20px); /* Make cards take up one-third of the row */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 10px; /* Add margin for spacing */
+    width: 500px;
+}
+
+    
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    
+    .card img {
+        height: 200px;
+        width: 150px;
+        object-fit: cover;
+        margin-right: 10px;
+        padding: 10px;
+    }
+
+
+.card-body {
+    flex: 1;
+    padding: 15px;
+}
+
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+.card-text {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* Styling for the delete button */
+.btn-danger {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        flex: 0 1 calc(50% - 20px); /* Two cards per row on smaller screens */
+        width: fit-content;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        flex: 0 1 calc(100% - 20px); /* Single card per row on extra small screens */
+        width: fit-content;
+    }
 }

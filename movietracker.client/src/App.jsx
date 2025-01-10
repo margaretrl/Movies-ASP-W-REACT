@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard.jsx';
-import AddMovieForm from './components/AddMovieForm.jsx'
+import AddMovieForm from './components/AddMovieForm.jsx';
+import Header from './components/Header.jsx';  // Importing Header component
+
 function App({ initialMovieList }) {
     const [movies, setMovies] = useState([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -67,35 +68,44 @@ function App({ initialMovieList }) {
     };
 
     const toggleFormVisibility = () => {
-        setIsFormVisible((prev) => !prev); // Toggle the form visibility
+        setIsFormVisible((prev) => !prev);
+    };
+
+    const closeModal = () => {
+        setIsFormVisible(false);
     };
 
     const cards = movies.map((movie) => (
-        <MovieCard
-            key={movie.movieId}
-            initialMovieData={movie}
-            onDelete={handleDeleteMovie} 
-            onEdit={handleEditMovie}
-        />
+        <div className="col-lg-4 col-md-6 col-sm-12" key={movie.movieId}>
+            <MovieCard
+                initialMovieData={movie}
+                onDelete={handleDeleteMovie}
+                onEdit={handleEditMovie}
+            />
+        </div>
     ));
 
     return (
         <div className="container">
-            <div className="my-4 text-center">
-                <button className="btn btn-primary" onClick={toggleFormVisibility}>
-                    {isFormVisible ? 'Close Form' : 'Add New Movie'}
-                </button>
-            </div>
-            {isFormVisible && <AddMovieForm onAddMovie={handleAddMovie} />}
-            <h1 className="my-4">Movies</h1>
-            <div className="row">
+            <Header title="Movies" onToggleForm={toggleFormVisibility} />
+
+            {isFormVisible && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <AddMovieForm onAddMovie={handleAddMovie} onClose={closeModal} />
+                    </div>
+                </div>
+            )}
+
+            <div className="row g-3">
                 {movies.length === 0 ? (
-                    <p className="text-center">Loading... Please refresh if the backend has started.</p>
+                    <p className="text-center">
+                        Loading... Please refresh if the backend has started.
+                    </p>
                 ) : (
                     cards
                 )}
             </div>
-
         </div>
     );
 }
