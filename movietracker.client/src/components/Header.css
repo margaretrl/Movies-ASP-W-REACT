@@ -11,9 +11,11 @@ header {
     justify-content: space-between; /* Ensures title on left and button on right */
     align-items: center; /* Vertical alignment to center */
     padding: 0.5rem 1.5rem;
-    background-color: rgba(31,148,0,0.5);
+    /*    background-color: rgba(31,148,0,0.5);*/
+    background-color: rgba(0, 51, 25, 0.9); /* Dark Green */
+
     color: white;
-    height: 40px;
+    height: 55px;
     margin-right: 20px;
     backdrop-filter: blur(5px);
 }

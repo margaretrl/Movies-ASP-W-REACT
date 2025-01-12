@@ -55,7 +55,20 @@ th, td {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding-top: 100px;
+    flex-direction: column;}
+
+.row.g-3 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center; /* Center the cards within the container */
 }
 
+/* Blur the background when modal is open */
+.blur {
+    filter: blur(5px);
+}
+
+.header-spacing {
+    margin-top: 60px; /* Adjust based on header height */
+}

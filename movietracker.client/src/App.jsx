@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard.jsx';
-import AddMovieForm from './components/AddMovieForm.jsx';
-import Header from './components/Header.jsx';  // Importing Header component
+import MovieModal from './components/MovieModal.jsx';
+import AddMovieForm from './components/AddMovieForm.jsx'; // Import AddMovieForm
+import Header from './components/Header.jsx';
 
-function App({ initialMovieList }) {
+function App() {
     const [movies, setMovies] = useState([]);
-    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddFormOpen, setIsAddFormOpen] = useState(false);
 
     useEffect(() => {
         fetchMovies();
@@ -30,6 +33,7 @@ function App({ initialMovieList }) {
 
             if (response.ok) {
                 setMovies((prevMovies) => prevMovies.filter((movie) => movie.movieId !== movieId));
+                setIsModalOpen(false);
             } else {
                 console.error('Error deleting movie:', response.statusText);
             }
@@ -63,49 +67,72 @@ function App({ initialMovieList }) {
         }
     };
 
-    const handleAddMovie = (newMovie) => {
-        setMovies((prevMovies) => [...prevMovies, newMovie]);
-    };
-
-    const toggleFormVisibility = () => {
-        setIsFormVisible((prev) => !prev);
+    const openModal = (movie) => {
+        setSelectedMovie(movie);
+        setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setIsFormVisible(false);
+        setSelectedMovie(null);
+        setIsModalOpen(false);
+    };
+
+    const openAddForm = () => {
+        setIsAddFormOpen(true);
+    };
+
+    const closeAddForm = () => {
+        setIsAddFormOpen(false);
     };
 
     const cards = movies.map((movie) => (
         <div className="col-lg-4 col-md-6 col-sm-12" key={movie.movieId}>
             <MovieCard
                 initialMovieData={movie}
-                onDelete={handleDeleteMovie}
-                onEdit={handleEditMovie}
+                onClick={() => openModal(movie)}
             />
         </div>
     ));
 
     return (
-        <div className="container">
-            <Header title="Movies" onToggleForm={toggleFormVisibility} />
+        <div className="app-container">
+            <Header title="MovieTracker" onToggleForm={openAddForm} />
+            <div className="header-spacing"></div>
 
-            {isFormVisible && (
+            <div className={`content ${isModalOpen || isAddFormOpen ? 'blur' : ''}`}>
+                <div className="row g-3">
+                    {movies.length === 0 ? (
+                        <p className="text-center">
+                            Loading... Please refresh if the backend has started.
+                        </p>
+                    ) : (
+                        cards
+                    )}
+                </div>
+            </div>
+
+            {isModalOpen && (
+                <MovieModal
+                    movie={selectedMovie}
+                    onClose={closeModal}
+                    onDelete={handleDeleteMovie}
+                    onEdit={handleEditMovie}
+                />
+            )}
+
+            {isAddFormOpen && (
                 <div className="modal-overlay">
                     <div className="modal">
-                        <AddMovieForm onAddMovie={handleAddMovie} onClose={closeModal} />
+                        <AddMovieForm
+                            onAddMovie={(newMovie) => {
+                                setMovies((prevMovies) => [...prevMovies, newMovie]);
+                                closeAddForm();
+                            }}
+                            onClose={closeAddForm}
+                        />
                     </div>
                 </div>
             )}
-
-            <div className="row g-3">
-                {movies.length === 0 ? (
-                    <p className="text-center">
-                        Loading... Please refresh if the backend has started.
-                    </p>
-                ) : (
-                    cards
-                )}
-            </div>
         </div>
     );
 }

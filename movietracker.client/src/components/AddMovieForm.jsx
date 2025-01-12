@@ -1,4 +1,5 @@
 import React from 'react';
+import './AddMovieForm.css'; // Ensure to include the custom styles
 
 function AddMovieForm({ onAddMovie, onClose }) {
     const [newMovie, setNewMovie] = React.useState({
@@ -35,6 +36,7 @@ function AddMovieForm({ onAddMovie, onClose }) {
         }));
     };
 
+
     const addMovie = async () => {
         if (Object.keys(errors).length === 0) {
             try {
@@ -63,8 +65,12 @@ function AddMovieForm({ onAddMovie, onClose }) {
     };
 
     return (
-        <div className="modal-content p-4">
-            <h2>Add a New Movie</h2>
+        <div className="modal-content p-4 position-relative">
+            <button className="close-button" onClick={onClose}>
+                &times;
+            </button>
+
+            <h2 className="form-title">Add a New Movie</h2>
             <div className="form-group">
                 <label>Title</label>
                 <input
@@ -129,12 +135,6 @@ function AddMovieForm({ onAddMovie, onClose }) {
                 disabled={Object.keys(errors).length > 0}
             >
                 Add Movie
-            </button>
-            <button
-                className="btn btn-secondary mt-2"
-                onClick={onClose}  // Close the modal when clicking "Cancel"
-            >
-                Cancel
             </button>
         </div>
     );
