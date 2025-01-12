@@ -1,0 +1,126 @@
+/* Center the modal in the screen */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+/* Modal container styling */
+.modal {
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    padding: 15px; /* Reduce padding */
+    max-width: 600px; /* Set a fixed maximum width */
+    width: 90%; /* Responsive width */
+    max-height: 90%; /* Prevent overflowing the viewport */
+    overflow-y: auto; /* Enable scrolling if content is too large */
+}
+
+    /* Title styling */
+    .modal h2 {
+        font-size: 1.5rem; /* Adjust the font size */
+        font-weight: bold;
+        margin: 10px 0; /* Adjust the vertical margin */
+        text-align: center; /* Keep it centered */
+    }
+
+    /* Close button styling */
+    .modal .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #8B0000;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .modal .close-button:hover {
+            background-color: #620202;
+        }
+
+/* Responsive content */
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem; /* Reduce gap between items */
+}
+
+    /* Image styling */
+    .modal-content img {
+        width: 100%;
+        max-width: 250px;
+        border-radius: 8px;
+        margin-bottom: 10px; /* Adjust space below image */
+    }
+
+    /* Paragraph styling */
+    .modal-content p {
+        margin: 5px 0; /* Reduce paragraph margins */
+        text-align: center; /* Center text for consistency */
+    }
+
+    /* Button styling */
+    .modal-content .btn {
+        margin-top: 10px; /* Reduce top margin */
+        padding: 8px 12px; /* Adjust padding */
+        border-radius: 5px;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .modal-content .btn-danger {
+        background-color: #8B0000;
+        color: white;
+    }
+
+        .modal-content .btn-danger:hover {
+            background-color: #620202;
+        }
+
+    .modal-content .btn-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+        .modal-content .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around; /* Even spacing for buttons */
+    width: 100%; /* Ensure buttons span full width */
+    margin-top: 10px; /* Adjust top margin */
+}
+
+.form-group {
+    margin-bottom: 10px; /* Reduce spacing between form groups */
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 6px; /* Reduce padding */
+    margin-top: 5px;
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
