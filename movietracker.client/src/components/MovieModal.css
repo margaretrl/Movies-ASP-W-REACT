@@ -19,7 +19,8 @@
     color: white;
     border-radius: 8px;
     padding: 20px;
-    max-width: 500px;
+    width: 80%;
+    max-width: 1000px;
     margin: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     max-height: 85%;
@@ -59,7 +60,8 @@
     color: white;
     border-radius: 8px;
     padding: 20px;
-    max-width: 600px;
+    width: 80%; 
+    max-width: 1000px; 
     margin: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
@@ -122,6 +124,7 @@
     width: 100%;
     margin-top: 10px;
 }
+
 
 .form-group {
     margin-bottom: 10px;
