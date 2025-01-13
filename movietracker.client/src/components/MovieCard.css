@@ -1,79 +1,92 @@
-/* Parent container for the movie cards */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-    margin: 0 -10px;
+.card-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    perspective: 1000px;
+    margin: 20px;
+    cursor: pointer;
 }
 
-/* Movie card styling */
-.card {
-    flex: 0 1 calc(33.333% - 20px); /* Make cards take up one-third of the row */
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    border: 1px solid #ccc;
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hides the back when facing front */
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin: 10px; /* Add margin for spacing */
-    width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.6s;
+    display: flex;
+    flex-direction: column;
+    background-color: #1e1e1e;
+    color: white;
 }
 
-    
-    .card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
+.card-front {
+    transform: rotateY(0deg); /* Default view */
+}
 
-    
-    .card img {
-        height: 200px;
-        width: 150px;
-        object-fit: cover;
-        margin-right: 10px;
-        padding: 10px;
-    }
+.card-back {
+    transform: rotateY(180deg); /* Hidden initially */
+    background-color: #2c2c2c;
+}
 
+/* Flip on hover */
+.card-container:hover .card-front {
+    transform: rotateY(180deg);
+}
+
+.card-container:hover .card-back {
+    transform: rotateY(0deg);
+}
+
+/* Card image */
+.card-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
 
 .card-body {
-    flex: 1;
-    padding: 15px;
+    text-align: center;
+    padding: 1px;
 }
-
 
 .card-title {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin: 5px 0;
+    line-height: 1.2;
+    text-align: center;
 }
-
 
 .card-text {
-    margin-bottom: 10px;
-    line-height: 1.5;
+    font-size: 14px;
     color: #555;
+    overflow: hidden; /* Prevent text overflow */
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
 }
 
-/* Styling for the delete button */
-.btn-danger {
-    font-size: 0.8rem;
-    padding: 5px 10px;
+/* Responsive behavior for cards */
+@media (max-width: 1200px) {
+    .row {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust for smaller screens */
+    }
 }
 
-/* Responsive design for smaller screens */
 @media (max-width: 768px) {
-    .card {
-        flex: 0 1 calc(50% - 20px); /* Two cards per row on smaller screens */
-        width: fit-content;
+    .row {
+        grid-template-columns: repeat(2, 1fr); /* Two cards per row on medium screens */
     }
 }
 
 @media (max-width: 576px) {
-    .card {
-        flex: 0 1 calc(100% - 20px); /* Single card per row on extra small screens */
-        width: fit-content;
+    .row {
+        grid-template-columns: repeat(1, 1fr); /* Single card per row on small screens */
     }
 }
