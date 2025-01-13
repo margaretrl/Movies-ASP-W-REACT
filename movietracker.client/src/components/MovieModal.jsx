@@ -97,7 +97,7 @@ function MovieModal({ movie, onClose, onDelete, onEdit }) {
                                     Save
                                 </button>
                                 <button
-                                    className="btn btn-secondary"
+                                    className=" btn btn-danger"
                                     onClick={() => setIsEditing(false)}
                                 >
                                     Cancel
