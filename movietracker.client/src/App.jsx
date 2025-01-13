@@ -7,6 +7,8 @@ import Header from './components/Header.jsx';
 
 function App() {
     const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]); // Filtered movies based on search
+    const [searchQuery, setSearchQuery] = useState(''); // Search query
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddFormOpen, setIsAddFormOpen] = useState(false);
@@ -15,11 +17,20 @@ function App() {
         fetchMovies();
     }, []);
 
+    useEffect(() => {
+        // Filter movies whenever the search query changes
+        const filtered = movies.filter((movie) =>
+            movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredMovies(filtered);
+    }, [searchQuery, movies]);
+
     const fetchMovies = async () => {
         try {
             const response = await fetch('https://localhost:7111/api/movies');
             const data = await response.json();
             setMovies(data);
+            setFilteredMovies(data); // Initially display all movies
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
@@ -85,7 +96,7 @@ function App() {
         setIsAddFormOpen(false);
     };
 
-    const cards = movies.map((movie) => (
+    const cards = filteredMovies.map((movie) => (
         <div className="col-lg-4 col-md-6 col-sm-12" key={movie.movieId}>
             <MovieCard
                 initialMovieData={movie}
@@ -96,15 +107,17 @@ function App() {
 
     return (
         <div className="app-container">
-            <Header title="MovieTracker" onToggleForm={openAddForm} />
+            <Header
+                title="MovieTracker"
+                onToggleForm={openAddForm}
+                onSearch={(query) => setSearchQuery(query)} // Search handler
+            />
             <div className="header-spacing"></div>
 
             <div className={`content ${isModalOpen || isAddFormOpen ? 'blur' : ''}`}>
                 <div className="row g-3">
-                    {movies.length === 0 ? (
-                        <p className="text-center">
-                            Loading... Please refresh if the backend has started.
-                        </p>
+                    {filteredMovies.length === 0 ? (
+                        <p className="text-center">No movies found.</p>
                     ) : (
                         cards
                     )}
