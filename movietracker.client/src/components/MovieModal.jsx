@@ -7,25 +7,35 @@ function MovieModal({ movie, onClose, onDelete, onEdit }) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "rating") {
+            const numericValue = Number(value);
+            if (numericValue < 1 || numericValue > 10) {
+                // Prevent setting the rating beyond allowed range
+                return;
+            }
+        }
+
         setEditedMovie((prevMovie) => ({
             ...prevMovie,
             [name]: value,
         }));
     };
 
+
     const handleSave = () => {
-        onEdit(editedMovie); // Call the onEdit function with updated movie
-        setIsEditing(false); // Exit edit mode
-        onClose(); // Close the modal
+        onEdit(editedMovie);
+        setIsEditing(false);
+        onClose();
     };
 
     return (
         <div className="modal-overlay">
             <div className="modal">
-                {/* Conditionally render the close button */}
+                {/* Conditionally render close button */}
                 {!isEditing && (
                     <button className="close-button" onClick={onClose}>
-                         &times;
+                        &times;
                     </button>
                 )}
                 <div className="modal-content">

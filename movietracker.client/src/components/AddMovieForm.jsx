@@ -1,5 +1,5 @@
 import React from 'react';
-import './AddMovieForm.css'; // Ensure to include the custom styles
+import './AddMovieForm.css';
 
 function AddMovieForm({ onAddMovie, onClose }) {
     const [newMovie, setNewMovie] = React.useState({
@@ -52,7 +52,7 @@ function AddMovieForm({ onAddMovie, onClose }) {
                     const createdMovie = await response.json();
                     onAddMovie(createdMovie); // Update movie list in App.js
                     setNewMovie({ title: '', overview: '', posterPath: '', rating: 0, review: '' });
-                    onClose(); // Close the modal
+                    onClose();
                 } else {
                     console.error('Error adding movie:', response.statusText);
                 }

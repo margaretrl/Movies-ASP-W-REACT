@@ -2,7 +2,7 @@
     position: relative;
     width: 350px;
     height: 350px;
-    perspective: 1000px; /* Enables the 3D effect */
+    perspective: 1000px;
     margin: 20px;
     cursor: pointer;
 }
@@ -54,22 +54,22 @@
 }
 
 .card-title {
-    font-size: 1.5rem; /* Adjust the font size */
+    font-size: 1.5rem;
     font-weight: bold;
-    margin: 5px 0; /* Reduce the vertical margin */
-    line-height: 1.2; /* Reduce line height */
-    text-align: center; /* Keep it centered */
+    margin: 5px 0;
+    line-height: 1.2;
+    text-align: center;
 }
 
 .card-text {
     font-size: 14px;
     color: #555;
     overflow: hidden; /* Prevent text overflow */
-    text-overflow: ellipsis; /* Add ellipsis (...) when text overflows */
+    text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    word-wrap: break-word; /* Ensure long words wrap properly */
+    word-wrap: break-word;
 }
 
 /* Responsive behavior for cards */

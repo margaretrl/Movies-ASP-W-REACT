@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard.jsx';
 import MovieModal from './components/MovieModal.jsx';
-import AddMovieForm from './components/AddMovieForm.jsx'; // Import AddMovieForm
+import AddMovieForm from './components/AddMovieForm.jsx';
 import Header from './components/Header.jsx';
 
 function App() {

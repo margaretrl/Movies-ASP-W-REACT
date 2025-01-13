@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,16 +14,16 @@
 
 /* Modal container styling */
 .modal {
+    position: relative;
     background-color: #1e1e1e;
     color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    padding: 15px; /* Reduce padding */
-    max-width: 600px; /* Set a fixed maximum width */
-    width: 90%; /* Responsive width */
-    max-height: 90%; /* Prevent overflowing the viewport */
-    overflow-y: auto; /* Enable scrolling if content is too large */
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
+
 
     /* Title styling */
     .modal h2 {
@@ -33,31 +33,42 @@
         text-align: center; /* Keep it centered */
     }
 
-    /* Close button styling */
-    .modal .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #8B0000;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+/* Close button styling */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    z-index: 1051;
+    transition: color 0.3s ease;
+}
+
+    .close-button:hover {
+        color: #ff5757;
     }
 
-        .modal .close-button:hover {
-            background-color: #620202;
-        }
+.modal-content {
+    position: relative;
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
 
 /* Responsive content */
 .modal-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem; /* Reduce gap between items */
+    gap: 0.8rem;
 }
 
     /* Image styling */
@@ -65,19 +76,19 @@
         width: 100%;
         max-width: 250px;
         border-radius: 8px;
-        margin-bottom: 10px; /* Adjust space below image */
+        margin-bottom: 10px;
     }
 
     /* Paragraph styling */
     .modal-content p {
-        margin: 5px 0; /* Reduce paragraph margins */
-        text-align: center; /* Center text for consistency */
+        margin: 5px 0;
+        text-align: center;
     }
 
     /* Button styling */
     .modal-content .btn {
-        margin-top: 10px; /* Reduce top margin */
-        padding: 8px 12px; /* Adjust padding */
+        margin-top: 10px;
+        padding: 8px 12px;
         border-radius: 5px;
         border: none;
         font-size: 0.9rem;
@@ -105,19 +116,19 @@
 
 .modal-buttons {
     display: flex;
-    justify-content: space-around; /* Even spacing for buttons */
-    width: 100%; /* Ensure buttons span full width */
-    margin-top: 10px; /* Adjust top margin */
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .form-group {
-    margin-bottom: 10px; /* Reduce spacing between form groups */
+    margin-bottom: 10px;
 }
 
 .modal-content input,
 .modal-content textarea {
     width: 100%;
-    padding: 6px; /* Reduce padding */
+    padding: 6px;
     margin-top: 5px;
     background-color: #2a2a2a;
     color: white;
