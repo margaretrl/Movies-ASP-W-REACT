@@ -1,7 +1,7 @@
 ﻿#root {
-    max-width: 1280px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0.5rem;
     text-align: center;
 }
 
@@ -44,6 +44,7 @@ th, td {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    overflow: hidden;
 }
 
 .col-lg-4, .col-md-6, .col-sm-12 {
@@ -56,12 +57,6 @@ th, td {
     align-items: center;
     flex-direction: column;}
 
-.row.g-3 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-}
 
 /* Blur background when modal is open */
 .blur {
@@ -69,5 +64,16 @@ th, td {
 }
 
 .header-spacing {
-    margin-top: 60px;
+    margin-top: 65px;
+}
+
+.content {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll caused by overflow */
 }

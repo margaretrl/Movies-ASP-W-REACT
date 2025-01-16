@@ -39,4 +39,23 @@ header h1 {
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    width: 0; /* Start with zero width */
+    opacity: 0; /* Start invisible */
+    transition: width 0.3s ease, opacity 0.3s ease; /* Smooth transitions */
+}
+
+    .search-bar.visible {
+        width: 200px; /* Final width of the search bar */
+        opacity: 1; /* Fully visible */
+    }
+
+.icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.header-actions img {
+    display: inline-block;
+    margin-right: 10px;
 }

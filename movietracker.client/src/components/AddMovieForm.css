@@ -4,9 +4,13 @@
     color: white;
     border-radius: 8px;
     padding: 20px;
-    max-width: 600px;
+    max-width: 500px;
     margin: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    width: 85%; /* Ensure responsiveness */
+    overflow-y: auto; /* vertical scrolling */
+    word-wrap: break-word; /* Break long words */
+    word-break: break-word; /* Ensure long words break */
 }
 
 /* Close button styling */
@@ -47,4 +51,32 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+textarea.form-control {
+    width: 100%;
+    max-width: 100%; /* Prevents overflow horizontally */
+    max-height: 150px; /* Limits the height of the textarea */
+    resize: vertical; /* Allows only vertical resizing */
+    padding: 10px;
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-y: auto; /* Adds a scrollbar if the content exceeds max-height */
+}
+.modal {
+    position: relative;
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px; /* Set a reasonable width */
+    max-height: 85vh; /* Constrain vertical height to viewport */
+    margin: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }

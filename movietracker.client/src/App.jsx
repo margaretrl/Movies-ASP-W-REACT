@@ -4,25 +4,27 @@ import MovieCard from './components/MovieCard.jsx';
 import MovieModal from './components/MovieModal.jsx';
 import AddMovieForm from './components/AddMovieForm.jsx';
 import Header from './components/Header.jsx';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
     const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]); // Filtered movies based on search
-    const [searchQuery, setSearchQuery] = useState(''); // Search query
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+    const [flippedStates, setFlippedStates] = useState([]);
 
     useEffect(() => {
         fetchMovies();
     }, []);
 
     useEffect(() => {
-        // Filter movies whenever the search query changes
         const filtered = movies.filter((movie) =>
             movie.title.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setFilteredMovies(filtered);
+        setFlippedStates(Array(filtered.length).fill(false)); // Reset flipped states for filtered movies
     }, [searchQuery, movies]);
 
     const fetchMovies = async () => {
@@ -30,58 +32,42 @@ function App() {
             const response = await fetch('https://localhost:7111/api/movies');
             const data = await response.json();
             setMovies(data);
-            setFilteredMovies(data); // Initially display all movies
+            setFilteredMovies(data);
+            setFlippedStates(Array(data.length).fill(false)); // Initialize flipped states
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
     };
 
-    const handleDeleteMovie = async (movieId) => {
-        try {
-            const response = await fetch(`https://localhost:7111/api/movies/${movieId}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                setMovies((prevMovies) => prevMovies.filter((movie) => movie.movieId !== movieId));
-                setIsModalOpen(false);
-            } else {
-                console.error('Error deleting movie:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error deleting movie:', error);
-        }
+    const flipCardsSequentially = () => {
+        filteredMovies.forEach((_, index) => {
+            setTimeout(() => {
+                setFlippedStates((prevStates) => {
+                    const newStates = [...prevStates];
+                    newStates[index] = !newStates[index];
+                    return newStates;
+                });
+            }, index * 500); // 500ms delay between flips
+        });
     };
 
-    const handleEditMovie = async (updatedMovie) => {
-        try {
-            const response = await fetch(`https://localhost:7111/api/movies/${updatedMovie.movieId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedMovie),
-            });
+    const cards = filteredMovies.map((movie, index) => (
+        <div className="col-lg-2 col-md-3 col-sm-4 col-xs-6" key={movie.movieId}>
+            <MovieCard
+                flipped={flippedStates[index]} // Pass flipped state
+                initialMovieData={movie}
+                onClick={() => openModal(movie)} // Pass the openModal handler
+            />
+        </div>
+    ));
 
-            if (response.ok) {
-                const newMovie = await response.json();
-                setMovies((prevMovies) =>
-                    prevMovies.map((movie) =>
-                        movie.movieId === newMovie.movieId ? newMovie : movie
-                    )
-                );
-            } else {
-                console.error('Error updating movie:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error updating movie:', error);
-        }
-    };
 
     const openModal = (movie) => {
+        console.log("Opening modal for movie:", movie);
         setSelectedMovie(movie);
         setIsModalOpen(true);
     };
+
 
     const closeModal = () => {
         setSelectedMovie(null);
@@ -96,21 +82,13 @@ function App() {
         setIsAddFormOpen(false);
     };
 
-    const cards = filteredMovies.map((movie) => (
-        <div className="col-lg-4 col-md-6 col-sm-12" key={movie.movieId}>
-            <MovieCard
-                initialMovieData={movie}
-                onClick={() => openModal(movie)}
-            />
-        </div>
-    ));
-
     return (
         <div className="app-container">
             <Header
                 title="MovieTracker"
                 onToggleForm={openAddForm}
-                onSearch={(query) => setSearchQuery(query)} // Search handler
+                onSearch={(query) => setSearchQuery(query)}
+                onFlipCards={flipCardsSequentially} // New prop for flipping cards
             />
             <div className="header-spacing"></div>
 
@@ -124,28 +102,34 @@ function App() {
                 </div>
             </div>
 
-            {isModalOpen && (
-                <MovieModal
-                    movie={selectedMovie}
-                    onClose={closeModal}
-                    onDelete={handleDeleteMovie}
-                    onEdit={handleEditMovie}
-                />
-            )}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <MovieModal
+                        movie={selectedMovie}
+                        onClose={closeModal}
+                        onDelete={(id) => setMovies((prev) => prev.filter((m) => m.movieId !== id))}
+                        onEdit={(updatedMovie) => setMovies((prev) =>
+                            prev.map((m) =>
+                                m.movieId === updatedMovie.movieId ? updatedMovie : m
+                            )
+                        )}
+                    />
+                )}
 
-            {isAddFormOpen && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <AddMovieForm
-                            onAddMovie={(newMovie) => {
-                                setMovies((prevMovies) => [...prevMovies, newMovie]);
-                                closeAddForm();
-                            }}
-                            onClose={closeAddForm}
-                        />
+                {isAddFormOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <AddMovieForm
+                                onAddMovie={(newMovie) => {
+                                    setMovies((prevMovies) => [...prevMovies, newMovie]);
+                                    closeAddForm();
+                                }}
+                                onClose={closeAddForm}
+                            />
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
         </div>
     );
 }

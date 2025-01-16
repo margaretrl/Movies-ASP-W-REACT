@@ -1,10 +1,11 @@
 .card-container {
     position: relative;
-    width: 350px;
+    width: 300px;
     height: 350px;
     perspective: 1000px;
     margin: 20px;
     cursor: pointer;
+    pointer-events: auto; /* Ensure the container responds to clicks */
 }
 
 .card-front,
@@ -61,15 +62,35 @@
     text-align: center;
 }
 
-.card-text {
+.card-text-front {
     font-size: 14px;
-    color: #555;
+    color: #797979;
     overflow: hidden; /* Prevent text overflow */
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
+}
+
+.card-text-back {
+    font-size: 20px;
+    color: #797979;
+    overflow: hidden; /* Prevent text overflow */
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
+
+/* Flip when the flipped class is applied */
+.card-container.flipped .card-front {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-back {
+    transform: rotateY(0deg);
 }
 
 /* Responsive behavior for cards */
