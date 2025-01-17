@@ -51,6 +51,46 @@ function App() {
         });
     };
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`https://localhost:7111/api/movies/${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setMovies((prev) => prev.filter((m) => m.movieId !== id));
+                closeModal();
+            } else {
+                console.error('Failed to delete the movie');
+            }
+        } catch (error) {
+            console.error('Error deleting the movie:', error);
+        }
+    };
+
+    const handleEdit = async (updatedMovie) => {
+        try {
+            const response = await fetch(`https://localhost:7111/api/movies/${updatedMovie.movieId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedMovie),
+            });
+            if (response.ok) {
+                setMovies((prev) =>
+                    prev.map((m) =>
+                        m.movieId === updatedMovie.movieId ? updatedMovie : m
+                    )
+                );
+                closeModal();
+            } else {
+                console.error('Failed to update the movie');
+            }
+        } catch (error) {
+            console.error('Error updating the movie:', error);
+        }
+    };
+
     const cards = filteredMovies.map((movie, index) => (
         <div className="col-lg-2 col-md-3 col-sm-4 col-xs-6" key={movie.movieId}>
             <MovieCard
@@ -61,13 +101,11 @@ function App() {
         </div>
     ));
 
-
     const openModal = (movie) => {
         console.log("Opening modal for movie:", movie);
         setSelectedMovie(movie);
         setIsModalOpen(true);
     };
-
 
     const closeModal = () => {
         setSelectedMovie(null);
@@ -107,12 +145,8 @@ function App() {
                     <MovieModal
                         movie={selectedMovie}
                         onClose={closeModal}
-                        onDelete={(id) => setMovies((prev) => prev.filter((m) => m.movieId !== id))}
-                        onEdit={(updatedMovie) => setMovies((prev) =>
-                            prev.map((m) =>
-                                m.movieId === updatedMovie.movieId ? updatedMovie : m
-                            )
-                        )}
+                        onDelete={handleDelete}
+                        onEdit={handleEdit}
                     />
                 )}
 
