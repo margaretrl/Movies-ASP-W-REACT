@@ -135,6 +135,7 @@ function MovieModal({ movie, onClose, onDelete, onEdit }) {
                                 >
                                     Cancel
                                 </button>
+                                
                             </div>
 
                         </>
@@ -160,12 +161,18 @@ function MovieModal({ movie, onClose, onDelete, onEdit }) {
                                     Edit
                                 </button>
                                 <button
-                                    className="btn btn-danger"
-                                    onClick={() => onDelete(movie.movieId)}
+                                        className="btn btn-danger"
+                                        onClick={() => {
+                                            if (window.confirm("Are you sure you want to delete this movie?")) {
+                                                onDelete(movie.movieId);
+                                                onClose();
+                                            }
+                                        }}
                                 >
                                     Delete
-                                </button>
-                            </div>
+                                    </button>
+                                </div>
+                                <div style={{ height: '200px' }}></div>
                         </>
                     )}
                 </div>

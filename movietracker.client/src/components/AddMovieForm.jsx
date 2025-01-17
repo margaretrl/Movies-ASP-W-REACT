@@ -1,6 +1,7 @@
 import React from 'react';
 import './AddMovieForm.css';
 import { motion } from 'framer-motion';
+
 function AddMovieForm({ onAddMovie, onClose }) {
     const [newMovie, setNewMovie] = React.useState({
         title: '',
@@ -36,7 +37,6 @@ function AddMovieForm({ onAddMovie, onClose }) {
         }));
     };
 
-
     const addMovie = async () => {
         if (Object.keys(errors).length === 0) {
             try {
@@ -71,6 +71,7 @@ function AddMovieForm({ onAddMovie, onClose }) {
             animate={{ opacity: 1 }} // Animate to full opacity
             exit={{ opacity: 0 }} // Exit animation
             transition={{ duration: 0.3 }} // Smooth transition
+            onClick={onClose} // Close modal when clicking outside the content
         >
             <motion.div
                 className="modal-content p-4 position-relative"
@@ -78,6 +79,7 @@ function AddMovieForm({ onAddMovie, onClose }) {
                 animate={{ scale: 1, opacity: 1 }} // Animation state
                 exit={{ scale: 0.8, opacity: 0 }} // Exit state
                 transition={{ duration: 0.3 }} // Smooth transition
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
             >
                 <button className="close-button" onClick={onClose}>
                     &times;
