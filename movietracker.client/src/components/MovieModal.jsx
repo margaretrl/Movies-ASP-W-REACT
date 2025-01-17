@@ -172,7 +172,6 @@ function MovieModal({ movie, onClose, onDelete, onEdit }) {
                                     Delete
                                     </button>
                                 </div>
-                                <div style={{ height: '200px' }}></div>
                         </>
                     )}
                 </div>
